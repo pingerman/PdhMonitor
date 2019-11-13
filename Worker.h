@@ -26,7 +26,7 @@ namespace Task
 		virtual void Close() {}
 
 		IWorker() {}
-		IWorker(int updateInterval) {}
+		IWorker(int dataCount, int updateInterval) {}
 	};
 
 	class Worker : public IWorker
