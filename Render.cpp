@@ -115,11 +115,11 @@ namespace Task
 
 	void Render::Clear()
 	{
-		//Удаляем VBO
+		//Deleting VBO
 		openGL.glBindBuffer(GL_ARRAY_BUFFER, 0);
 		openGL.glDeleteBuffers(1, &VBO);
 
-		//Удаляем VAO
+		//Deleting VAO
 		openGL.glBindVertexArray(0);
 		openGL.glDeleteVertexArrays(1, &VAO);
 	}

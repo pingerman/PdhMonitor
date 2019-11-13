@@ -59,7 +59,7 @@ namespace OGL
 		if (!GLInitExtensions())
 			return false;
 
-		//Дебагинг OpenGL отключен
+		//OpenGL debuging is off
 
 		//glEnable(GL_DEBUG_OUTPUT);
 		//glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
