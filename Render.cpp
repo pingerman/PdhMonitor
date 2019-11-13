@@ -36,7 +36,7 @@ namespace Task
 	{
 		for (int i = 0, j = 0; i < RENDER_LINE_LENGTH; i++, j++)
 		{
-			vertex[i].x = -1.0f + (j * (4.0f / RENDER_LINE_LENGTH));
+			vertex[i].x = -1.05f + (j * (4.2f / RENDER_LINE_LENGTH));
 			vertex[i].y = RENDER_DEFAULT_Y;
 			vertex[i].z = 0.0f;
 			if (i > 0 && i % 2 == 1)
