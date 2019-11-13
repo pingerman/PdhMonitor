@@ -27,12 +27,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	wc.style = CS_OWNDC;
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
-	wc.lpszClassName = L"TestClass";
+	wc.lpszClassName = L"PdhClass";
 
 	if (!RegisterClass(&wc))
 		return 0;
 
-	hWnd = CreateWindow(wc.lpszClassName, L"TestWindow", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, WIN_WIDTH, WIN_HEIGHT, NULL, NULL, wc.hInstance, NULL);
+	hWnd = CreateWindow(wc.lpszClassName, L"PdhMonitor", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, WIN_WIDTH, WIN_HEIGHT, NULL, NULL, wc.hInstance, NULL);
 
 	if (hWnd == NULL)
 		return 0;
