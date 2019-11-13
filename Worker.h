@@ -39,7 +39,7 @@ namespace Task
 		int updateInterval = 10;
 		int updateCounter = 11;
 
-		Containers::Container<float> data = Containers::Container<float>(500);
+		Containers::Container<float> data;
 
 		int count;
 		int increment = 0;
@@ -56,7 +56,7 @@ namespace Task
 		void Close() override;
 
 		Worker();
-		Worker(int updateInterval);
+		Worker(int dataCount, int updateInterval);
 
 		~Worker();
 	};

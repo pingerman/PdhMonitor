@@ -65,7 +65,7 @@ namespace Task
 
 		TCHAR* processor = currentCore; // _Total is already on the list
 
-		  //Parameters of counter path: { szMachineName, szObjectName, szInstanceName, szParentInstance, dwInstanceIndex, szCounterName }
+		 //Parameters of counter path: { szMachineName, szObjectName, szInstanceName, szParentInstance, dwInstanceIndex, szCounterName }
 		PDH_COUNTER_PATH_ELEMENTS pe = { szMachineName, szObjectName, processor, NULL, 0, szCounterName };
 
 		pdhStatus = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);
@@ -115,13 +115,14 @@ namespace Task
 
 	Worker::Worker()
 	{
-		Worker(100);
+		Worker(300, 100);
 	}
 
-	Worker::Worker(int updateInterval)
+	Worker::Worker(int dataCount, int updateInterval)
 	{
 		this->updateInterval = updateInterval;
 		this->updateCounter = updateInterval + 1;
+		data = Containers::Container<float>(dataCount);
 	}
 
 	Worker::~Worker()

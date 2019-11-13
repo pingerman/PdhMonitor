@@ -96,7 +96,7 @@ namespace Containers
 
 		bool RemoveFromEnd() 
 		{
-			if (head == nullptr)
+			if (head == nullptr || count <= 0)
 			{
 				return false;
 			}
@@ -126,6 +126,11 @@ namespace Containers
 			}
 
 			count--;
+			if(count <= 0)
+			{
+				head = nullptr;
+			}
+
 			return true;
 		}
 

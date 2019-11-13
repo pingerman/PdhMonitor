@@ -14,9 +14,9 @@ namespace Task
 	class TaskManager
 	{
 	private:
-		std::vector<Worker> workers;
-		std::vector<Render> renders;
-		std::vector<Render> gridRenders;
+		std::vector<Worker*> workers;
+		std::vector<Render*> renders;
+		std::vector<Render*> gridRenders;
 
 		int processorsCount = 0;
 		int gridCount = 0;

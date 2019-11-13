@@ -10,14 +10,16 @@ namespace Task
 		GetSystemInfo(&systemInfo);
 		processorsCount = systemInfo.dwNumberOfProcessors;
 
-		workers.assign(processorsCount, Worker(500));
+		for (int i = 0; i < processorsCount; i++)
+		{
+			workers.push_back(new Worker(300, 500));
+			renders.push_back(new Render());
+		}
 
 		for (int i = 0; i < processorsCount; i++)
 		{
-			workers[i].Start(i);
+			workers[i]->Start(i);
 		}
-
-		renders.assign(processorsCount, Render());
 
 		//Setting the colors of graphs:
 
@@ -32,39 +34,42 @@ namespace Task
 
 		for (int i = 0, j = 0; i < processorsCount; i++, j++)
 		{
-			renders[i].Load();
-			renders[i].SetColor(&color[j][0]);
+			renders[i]->Load();
+			renders[i]->SetColor(&color[j][0]);
 
 			if (j >= colorsCount)
 				j = 0;
 		}
 
 		//Load measuring grid:
-		gridCount = 11;
 
-		gridRenders.assign(gridCount, Render());
+		gridCount = 11;
 
 		float gridColor[3] = { 0.6f, 0.6f, 0.6f };
 
+		for (int i = 0; i < gridCount; i++)
+		{
+			gridRenders.push_back(new Render(&gridColor[0]));
+		}
+
 		for (int i = 0, j = 0; i < gridCount; i++, j++)
 		{
-			gridRenders[i].Load();
-			gridRenders[i].SetColor(&gridColor[0]);
+			gridRenders[i]->Load();
 
 			float gridValue = (0.1f * i);
 
-			gridRenders[i].Update(gridValue);
+			gridRenders[i]->Update(gridValue);
 		}
 	}
 
 	void TaskManager::AsyncUpdate(int coreIndex)
 	{
-		workers[coreIndex].Update();
+		workers[coreIndex]->Update();
 
 		int count = 0;
-		float** arrValues = workers[coreIndex].GetValues(count);
+		float** arrValues = workers[coreIndex]->GetValues(count);
 
-		renders[coreIndex].Update(arrValues, &count);
+		renders[coreIndex]->Update(arrValues, &count);
 	}
 
 	void TaskManager::Update()
@@ -81,7 +86,7 @@ namespace Task
 		//Visualize the graphs in the main thread
 		for (int i = 0; i < processorsCount; i++)
 		{
-			renders[i].VAOUpdate();
+			renders[i]->VAOUpdate();
 		}
 
 		Visualize();
@@ -94,13 +99,13 @@ namespace Task
 		//Visualize the meausing grid
 		for (int i = 0; i < gridCount; i++)
 		{
-			gridRenders[i].Draw();
+			gridRenders[i]->Draw();
 		}
 
 		//Visualize the graphs
 		for (int i = 0; i < processorsCount; i++)
 		{
-			renders[i].Draw();
+			renders[i]->Draw();
 		}
 
 		openGL.GLRenderEnd();
@@ -110,13 +115,18 @@ namespace Task
 	{
 		for (int i = 0; i < processorsCount; i++)
 		{
-			workers[i].Close();
-			renders[i].Clear();
+			workers[i]->Close();
+			renders[i]->Clear();
+
+			delete workers[i];
+			delete renders[i];
 		}
 
 		for (int i = 0; i < gridCount; i++)
 		{
-			gridRenders[i].Clear();
+			gridRenders[i]->Clear();
+
+			delete gridRenders[i];
 		}
 	}
 }
