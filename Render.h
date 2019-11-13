@@ -7,7 +7,7 @@
 
 using namespace OGL;
 
-#define RENDER_LINE_LENGTH 500
+#define RENDER_LINE_LENGTH 300
 #define RENDER_DEFAULT_Y -0.98f
 
 #include "Debug.h"

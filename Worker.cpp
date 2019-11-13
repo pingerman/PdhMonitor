@@ -15,10 +15,10 @@ namespace Task
 		DWORD dwSize = sizeof(szObjectName);
 		DWORD dwPathSize = sizeof(szCounterPath);
 
-		pdhStatus = PdhLookupPerfNameByIndex(NULL, 234, szObjectName, &dwSize);
+		pdhStatus = PdhLookupPerfNameByIndex(NULL, 238, szObjectName, &dwSize);
 
 		dwSize = sizeof(szCounterName);
-		pdhStatus = PdhLookupPerfNameByIndex(NULL, 200, szCounterName, &dwSize);
+		pdhStatus = PdhLookupPerfNameByIndex(NULL, 6, szCounterName, &dwSize);
 
 		dwSize = sizeof(szMachineName);
 		GetComputerName(szMachineName, &dwSize);

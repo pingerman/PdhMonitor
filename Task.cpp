@@ -10,7 +10,7 @@ namespace Task
 		GetSystemInfo(&systemInfo);
 		processorsCount = systemInfo.dwNumberOfProcessors;
 
-		workers.assign(processorsCount, Worker(10));
+		workers.assign(processorsCount, Worker(500));
 
 		for (int i = 0; i < processorsCount; i++)
 		{
