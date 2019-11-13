@@ -59,6 +59,7 @@ namespace Task
 			float gridValue = (0.1f * i);
 
 			gridRenders[i]->Update(gridValue);
+			gridRenders[i]->VAOUpdate();
 		}
 	}
 
