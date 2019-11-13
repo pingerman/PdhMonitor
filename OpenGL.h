@@ -67,10 +67,8 @@ namespace OGL
 		bool GLShaderInit();
 		bool GLCheckProgram(GLuint& shaderProgram);
 		bool GLCheckShader(GLuint& shader);
-		//void GLMatrixInit();
 
 	public:
-		//mat4 MVP;
 		GLuint ColorLocation;
 
 		PFNGLGENVERTEXARRAYSPROC glGenVertexArrays;

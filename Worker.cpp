@@ -5,7 +5,7 @@ namespace Task
 
 	void Worker::Start(int processorNumber)
 	{
-		//Отправка запроса на мониторинг и получение данных о системе:
+		//Open the pdh query and getting system data:
 
 		pdhStatus = PdhOpenQuery(NULL, 0, &hQuery);
 		if (pdhStatus != ERROR_SUCCESS)
@@ -23,7 +23,7 @@ namespace Task
 		dwSize = sizeof(szMachineName);
 		GetComputerName(szMachineName, &dwSize);
 
-		//Получение списка доступных процессов:
+		//Getting the list of current cores:
 
 		LPTSTR      szCountersBuf = NULL;
 		DWORD       dwCountersSize = 0;
@@ -59,13 +59,13 @@ namespace Task
 			szInstancesBuf, &dwInstancesSize,
 			PERF_DETAIL_WIZARD, 0);
 
-		//Формирование пути к счетчику и его прикрепление:
+		//Formation of the path to the counter:
 
 		LPTSTR currentCore = szInstancesBuf + (processorNumber * (lstrlen(szInstancesBuf) + 1));
 
-		TCHAR* processor = currentCore; // _Total уже включен в приходящий список
+		TCHAR* processor = currentCore; // _Total is already on the list
 
-		  //Параметры пути к счетчику: { szMachineName, szObjectName, szInstanceName, szParentInstance, dwInstanceIndex, szCounterName }
+		  //Parameters of counter path: { szMachineName, szObjectName, szInstanceName, szParentInstance, dwInstanceIndex, szCounterName }
 		PDH_COUNTER_PATH_ELEMENTS pe = { szMachineName, szObjectName, processor, NULL, 0, szCounterName };
 
 		pdhStatus = PdhMakeCounterPath(&pe, szCounterPath, &dwPathSize, 0);

@@ -6,19 +6,19 @@
 using namespace OGL;
 using namespace Task;
 
-//-----WinAPI Функции-----//
+//-----WinAPI functions-----//
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void AppRun();
 
-//-----Глобальные переменные-----//
+//-----Global variables-----//
 HWND hWnd;
 
 TaskManager task;
 OpenGL openGL;
 Time::TimeManager timeManager;
 
-//Точка входа WinAPI
+//Entry point of WinAPI
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
 
@@ -37,7 +37,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	if (hWnd == NULL)
 		return 0;
 
-	//Инициализация OpenGL
+	//OpenGL initialize
 	if (!openGL.GLInit(hWnd))
 	{
 		openGL.GLClear();
@@ -50,10 +50,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	task.Start();
 	
-	//Главный цикл приложения
+	//Application main loop
 	AppRun();
 
-	//Закрытие
+	//Close application
 	task.Close();
 	openGL.GLClear();
 	openGL.GLClose();
@@ -61,7 +61,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	return 0;
 }
 
-//Обработчик сообщений WinAPI
+//WinAPI message handler
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -75,7 +75,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-//Главный цикл приложения
+//Application main loop
 void AppRun()
 {
 	MSG msg = {};

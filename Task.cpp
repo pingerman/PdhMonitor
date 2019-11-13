@@ -4,7 +4,7 @@ namespace Task
 {
 	void TaskManager::Start() 
 	{
-		//загрузка графиков ядер процессора:
+		//Load the graphs of processors cores:
 
 		SYSTEM_INFO systemInfo;
 		GetSystemInfo(&systemInfo);
@@ -19,7 +19,7 @@ namespace Task
 
 		renders.assign(processorsCount, Render());
 
-		//настройка расцветки графиков:
+		//Setting the colors of graphs:
 
 		float color[6][3] = {{1.0f, 0.0f, 0.0f},
 							 {0.0f, 1.0f, 0.0f},
@@ -39,7 +39,7 @@ namespace Task
 				j = 0;
 		}
 
-		//загрузка измерительной сетки:
+		//Load measuring grid:
 		gridCount = 11;
 
 		gridRenders.assign(gridCount, Render());
@@ -69,7 +69,7 @@ namespace Task
 
 	void TaskManager::Update()
 	{
-		//Проводим расчеты в отдельных потоках
+		//Calculations in separates threads
 		for (int i = 0; i < processorsCount; i++)
 		{
 			std::thread process(&TaskManager::AsyncUpdate, this, i);
@@ -78,7 +78,7 @@ namespace Task
 				process.join();
 		}
 
-		//Визуализируем графики уже в основном потоке
+		//Visualize the graphs in the main thread
 		for (int i = 0; i < processorsCount; i++)
 		{
 			renders[i].VAOUpdate();
@@ -91,13 +91,13 @@ namespace Task
 	{
 		openGL.GLRenderStart();
 
-		//отрисовываем шкалу
+		//Visualize the meausing grid
 		for (int i = 0; i < gridCount; i++)
 		{
 			gridRenders[i].Draw();
 		}
 
-		//отрисовываем графики
+		//Visualize the graphs
 		for (int i = 0; i < processorsCount; i++)
 		{
 			renders[i].Draw();
