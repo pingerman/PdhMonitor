@@ -14,7 +14,7 @@ namespace Containers
 		T* value = nullptr;
 		Node<T>* Next = nullptr;
 
-		T* GetValue() 
+		T* GetValue() const
 		{
 			return value;
 		}

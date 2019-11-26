@@ -12,8 +12,8 @@ namespace Task
 
 		for (int i = 0; i < processorsCount; i++)
 		{
-			workers.push_back(new Worker(300, 500));
-			renders.push_back(new Render());
+			workers.push_back(std::make_unique<Worker>(300, 500));
+			renders.push_back(std::make_unique<Render>());
 		}
 
 		for (int i = 0; i < processorsCount; i++)
@@ -49,7 +49,7 @@ namespace Task
 
 		for (int i = 0; i < gridCount; i++)
 		{
-			gridRenders.push_back(new Render(&gridColor[0]));
+			gridRenders.push_back(std::make_unique<Render>(&gridColor[0]));
 		}
 
 		for (int i = 0, j = 0; i < gridCount; i++, j++)
@@ -61,28 +61,40 @@ namespace Task
 			gridRenders[i]->Update(gridValue);
 			gridRenders[i]->VAOUpdate();
 		}
+
+		//Start calculations in separates threads
+		for (int i = 0; i < processorsCount; i++)
+		{
+			threads[i] = std::make_unique<std::thread>(&TaskManager::AsyncUpdate, this, i);
+		}
 	}
 
 	void TaskManager::AsyncUpdate(int coreIndex)
 	{
+		std::unique_lock<std::mutex> lock(mainMutex, std::defer_lock);
+
 		workers[coreIndex]->Update();
 
 		int count = 0;
-		float** arrValues = workers[coreIndex]->GetValues(count);
+		std::shared_ptr<float> arrValues = workers[coreIndex]->GetValues(count);
+
+		lock.lock();
 
 		renders[coreIndex]->Update(arrValues, &count);
 	}
 
 	void TaskManager::Update()
 	{
-		//Calculations in separates threads
-		for (int i = 0; i < processorsCount; i++)
-		{
-			std::thread process(&TaskManager::AsyncUpdate, this, i);
+		////Calculations in separates threads
+		//for (int i = 0; i < processorsCount; i++)
+		//{
+		//	std::thread process(&TaskManager::AsyncUpdate, this, i);
 
-			if(process.joinable())
-				process.join();
-		}
+		//	if(process.joinable())
+		//		process.join();
+		//}
+
+		std::lock_guard<std::mutex> lock(mainMutex);
 
 		//Visualize the graphs in the main thread
 		for (int i = 0; i < processorsCount; i++)
@@ -119,15 +131,19 @@ namespace Task
 			workers[i]->Close();
 			renders[i]->Clear();
 
-			delete workers[i];
-			delete renders[i];
+
+			if (threads[i]->joinable())
+				threads[i]->join();
+
+			//delete workers[i];
+			//delete renders[i];
 		}
 
 		for (int i = 0; i < gridCount; i++)
 		{
 			gridRenders[i]->Clear();
 
-			delete gridRenders[i];
+			//delete gridRenders[i];
 		}
 	}
 }

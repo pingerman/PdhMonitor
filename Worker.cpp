@@ -72,8 +72,8 @@ namespace Task
 
 		pdhStatus = PdhAddCounter(hQuery, szCounterPath, 0, &hCounter);
 
-		delete szCountersBuf;
-		delete szInstancesBuf;
+		free(szCountersBuf);
+		free(szInstancesBuf);
 	}
 
 	void Worker::Check()
@@ -95,13 +95,18 @@ namespace Task
 			updateCounter = 0;
 			Check();
 
-			data.Push(new float((float)GetCounterValue()));
+			data->Put((float)GetCounterValue());
 		}
 	}
 
-	float** Worker::GetValues(int& count)
+	/*float** Worker::GetValues(int& count)
 	{
-		return data.Read(count);
+		return data->GetAll();
+	}*/
+
+	std::shared_ptr<float> Worker::GetValues(int& count)
+	{
+		return data->GetAll();
 	}
 
 	void Worker::Close()
@@ -122,7 +127,9 @@ namespace Task
 	{
 		this->updateInterval = updateInterval;
 		this->updateCounter = updateInterval + 1;
-		data = Containers::Container<float>(dataCount);
+		//data = Containers::Container<float>(dataCount);
+		data = std::make_unique<Containers::RingContainer<float>>(dataCount);
+		//data = std::make_unique<Containers::RingContainer<float>>(new float(dataCount), std::make_shared<float>(dataCount, std::default_delete<float>()));
 	}
 
 	Worker::~Worker()

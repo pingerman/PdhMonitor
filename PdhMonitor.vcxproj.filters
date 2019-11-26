@@ -48,6 +48,9 @@
     <ClInclude Include="Debug.h">
       <Filter>Header Files\Base</Filter>
     </ClInclude>
+    <ClInclude Include="RingContainer.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

@@ -2,7 +2,7 @@
 
 namespace Debug
 {
-	//Funtion taken from stackoverflow
+	//Funñtion taken from stackoverflow
 	LPWSTR Debuger::ConvertString(const std::string& instr) 
 	{
 		// Assumes std::string is encoded in the current Windows ANSI codepage

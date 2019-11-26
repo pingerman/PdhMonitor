@@ -57,7 +57,7 @@ namespace Task
 		openGL.glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void Render::Update(float** arrData, int* count)
+	void Render::Update(std::shared_ptr<float> arrData, int* count)
 	{
 		DEBUG_ASSERT(arrData != nullptr, L"Assert: Render data is null");
 		DEBUG_ASSERT(count != nullptr, L"Assert: Count of render data is null");
@@ -68,15 +68,11 @@ namespace Task
 		for (int i = 0; i < RENDER_LINE_LENGTH; i++)
 		{
 			float value = 0.0f;
-			if (i < *count && arrData[i] != nullptr) {
-				value = *arrData[i];
+			if (i < *count) {
+				value = arrData.get()[i];
 			}
 			temperatures[i] = (value * 1.8f) + RENDER_DEFAULT_Y;
 		}
-
-		delete[] arrData;
-
-		arrData = nullptr;
 	}
 
 	void Render::Update(float yLevel)

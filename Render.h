@@ -28,7 +28,8 @@ namespace Task
 
 		GLuint VAO, VBO;
 		void Load();
-		void Update(float** arrData, int* count);
+		/*void Update(float** arrData, int* count);*/
+		void Update(std::shared_ptr<float> arrData, int* count);
 		void Update(float yLevel);
 		void VAOUpdate();
 		void Draw();

@@ -8,7 +8,8 @@
 #include <Pdh.h>
 #include <PdhMsg.h>
 #include "Time.h"
-#include "Container.h"
+//#include "Container.h"
+#include "RingContainer.h"
 
 #pragma comment(lib, "pdh.lib")
 
@@ -22,7 +23,8 @@ namespace Task
 	public:
 		virtual void Start(int procNumber) {}
 		virtual void Update() {}
-		virtual float** GetValues(int& count) { return nullptr; }
+		/*virtual float** GetValues(int& count) { return nullptr; }*/
+		virtual std::shared_ptr<float> GetValues(int& count) { return nullptr; }
 		virtual void Close() {}
 
 		IWorker() {}
@@ -39,7 +41,8 @@ namespace Task
 		int updateInterval = 10;
 		int updateCounter = 11;
 
-		Containers::Container<float> data;
+		//Containers::Container<float> data;
+		std::unique_ptr<Containers::RingContainer<float>> data;
 
 		int count;
 		int increment = 0;
@@ -52,7 +55,8 @@ namespace Task
 
 		void Start(int procNumber) override;
 		void Update() override;
-		float** GetValues(int& count) override;
+		/*float** GetValues(int& count) override;*/
+		std::shared_ptr<float> GetValues(int& count) override;
 		void Close() override;
 
 		Worker();

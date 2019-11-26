@@ -5,6 +5,7 @@
 
 #include <thread>
 #include <vector>
+#include <mutex>
 #include "OpenGL.h"
 #include "Worker.h"
 #include "Render.h"
@@ -14,9 +15,12 @@ namespace Task
 	class TaskManager
 	{
 	private:
-		std::vector<Worker*> workers;
-		std::vector<Render*> renders;
-		std::vector<Render*> gridRenders;
+		std::vector<std::unique_ptr<Worker>> workers;
+		std::vector<std::unique_ptr<Render>> renders;
+		std::vector<std::unique_ptr<Render>> gridRenders;
+		std::vector<std::unique_ptr<std::thread>> threads;
+
+		std::mutex mainMutex;
 
 		int processorsCount = 0;
 		int gridCount = 0;
